@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main()
+int main(int argc, char* argv[])
 {
     // declarations
     FILE *cbs;
     int i;
-    char str1[100];
-    char str2[100];
-    char str3[100];
-    char *names = {str1};
-    char *product = {str2};
-    char *temp = {str3};
+    int lines;
+    char *names = (char *)malloc(100);
+    char *data1 = (char *)malloc(4);
+    char *data2 = (char *)malloc(4);
+    char *temp = (char *)malloc(1);
+    char *temp2 = (char *)malloc(1);
 
     // open database
     cbs = fopen("database.cbs", "r");
@@ -23,17 +23,20 @@ int main()
         exit(1);
     }
 
+    // get lines
+    fscanf(cbs, "%[^,] %s %i", temp, temp2, &lines);
+
     // print table
-    printf("%s %20s\n", "Data 1", "Data 2");
+    printf("%s %20s %20s", "Data 1", "Data 2", "Data 3");
 
     // read and print customer names
-    for(i = 0; i < 5; i++)
+    for(i = 0; i < lines; i++)
     {
-        // store array
-        fscanf(cbs, "%[^,] %s %s", names, temp, product);
+        // store data2
+        fscanf(cbs, "%[^,] %s %[^,] %s %s", names, temp, data1, temp2, data2);
 
         // print data 1 and data 2
-        printf("%s %20s", names, product);
+        printf("%s %20s %20s", names, data1, data2);
     }
 
     // close cbs file
